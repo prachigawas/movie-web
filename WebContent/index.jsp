@@ -44,17 +44,17 @@
 	<hr>
 	<br>
 
-	<p id="demo"></p>
+	<p id="showTable"></p>
 
 	<script>
 		function loadDoc() {
 			var xhttp = new XMLHttpRequest();
 			xhttp.onreadystatechange = function() {
 				if (this.readyState == 4 && this.status == 200) {
-					document.getElementById("demo").innerHTML = this.responseText;
+					document.getElementById("showTable").innerHTML = this.responseText;
 				}
 			};
-			var num=2;
+			var num=1;
 			var genre='Action';
 			var language='';
 			var sort='length';
