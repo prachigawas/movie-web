@@ -1,0 +1,108 @@
+@charset "ISO-8859-1";
+
+table, th, td {
+	border: 1px solid black;
+	border-collapse: collapse;
+	text-align: center;
+}
+
+.box {
+	top:50%;
+    left:30%;
+    background-color:#c0c0c0;
+    position:relative;
+}
+
+th, td {
+	padding: 8px;
+}
+
+th {
+	text-align: left;
+	background-color: #f1f1c1;
+}
+
+label {
+  display: inline-block;
+  width: 140px;
+  text-align: right;
+}
+
+.pagcenter{
+	top:50%;
+    left:34%;
+    position:relative;
+}​​​
+
+.pagination {
+    background-color:#d9d9d9;
+    position:relative;
+   
+}
+
+.pagination a {
+	color: black;
+	float: left;
+	padding: 8px 16px;
+	text-decoration: none;
+	transition: background-color .3s;
+	border: 1px solid #ddd;
+	margin: 0 4px;
+	text-align: center;
+}
+
+.pagination a.active {
+	background-color: dodgerblue;
+	color: white;
+}
+
+.pagination a:hover:not(.active){
+	background-color: #ddd;
+}
+
+.header img {
+	width: 100%;
+	height: 100px;
+	background-size: cover;
+	position: relative;
+	text-align:center
+}
+
+select{
+  width: 20%;
+  padding: 8px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+.header h1 {
+	position: absolute;
+	top: 7%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	color:silver;
+	font-size: 360%
+}
+.button {
+  background-color: #8080c0;
+  border: none;
+  color: white;
+  padding: 5px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  -webkit-transition-duration: 0.4s;
+  transition-duration: 0.4s;
+  position: absolute;
+  right: 18%;
+}
+
+.button:hover {
+  background-color: #0000a0; /* Green */
+  color: white;
+}
