@@ -4,12 +4,14 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import static java.util.Objects.nonNull;
+import static java.util.Objects.isNull;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -28,11 +30,7 @@ public class MoviesDAO {
 	}
 
 	public List<Movies> viewAllMovies(int offset,int noOfRecords,String genre, String language, String sort) {
-		//String query = "select SQL_CALC_FOUND_ROWS * from movies limit "+offset+","+noOfRecords;
-		
-		String query= "select SQL_CALC_FOUND_ROWS * from movies m where m.id in (select distinct movie_id from relationship r where r.category_id in (select "+
-				"id from category c where (c.type= " + genre +" or "+genre +" is null) and (c.value= "+language +" or "+language+" is null)))";
-			
+		String query =getQuery(genre,language) ;
 		
 		List<Movies> list = new ArrayList<Movies>();
 		Movies movie = null;
@@ -50,19 +48,18 @@ public class MoviesDAO {
 				movie.setTitle(rs.getString("title"));
 				list.add(movie);
 			}
-			noOfRecords=list.size();
 
 			if (nonNull(sort)) {
-				switch (sort.trim().toLowerCase()) {
+				switch(sort.trim().toLowerCase()) {
 				case "length":
 					list.sort(Comparator.comparing(Movies::getMovieLength, (s1, s2) -> {
-						return s1.replaceAll("[^0-9]", "").compareTo(s2.replaceAll("[^0-9]", ""));
+						return Integer.valueOf(s1.replaceAll("[^0-9]", "")).compareTo(Integer.valueOf(s2.replaceAll("[^0-9]", "")));
 					}));
 					break;
-				case "releaseDate":
+				case "releasedate":
 					list.sort(Comparator.comparing(Movies::getMovieReleaseDate, (s1, s2) -> {
-						DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM dd yyyy");
-						return LocalDateTime.parse(s1, formatter).compareTo(LocalDateTime.parse(s2, formatter));
+						DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM dd yyyy");
+						return LocalDate.parse(s1, formatter).compareTo(LocalDate.parse(s2, formatter));
 					}));
 					break;
 				default:
@@ -88,6 +85,18 @@ public class MoviesDAO {
 			}
 		}
 		return list;
+	}
+
+	private String getQuery(String genre, String language) {
+		String query;
+		if(isNull(genre) && isNull(language)) {
+			query= "select SQL_CALC_FOUND_ROWS * from movies";
+		}
+		else {
+			query= "select SQL_CALC_FOUND_ROWS * from movies m where m.id in (select distinct movie_id from relationship r where r.category_id in (select "+
+					"id from category c where c.value in ('"+genre +"','"+ language+"')))";
+		}
+		return query;
 	}
 
 	public int getNoOfRecords() {

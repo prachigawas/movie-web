@@ -31,7 +31,7 @@ public class MovieWebControllerServlet extends HttpServlet{
             page = Integer.parseInt(request.getParameter("page"));
         MoviesDAO dao = new MoviesDAO();
         
-        String genreFilter= (String) Optional.ofNullable(session.getAttribute("genre")).orElse(null);
+        String genreFilter= (String) Optional.ofNullable(request.getParameter("genre")).orElse(null);
         String languageFilter= Optional.ofNullable(request.getParameter("language")).orElse(null);
         String sortBy= Optional.ofNullable(request.getParameter("sort")).orElse(null);
         
@@ -41,6 +41,8 @@ public class MovieWebControllerServlet extends HttpServlet{
         int noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
         request.setAttribute("filteredMovies", list);
         request.setAttribute("noOfPages", noOfPages);
+        if(noOfPages < displayNoOfPages)
+        	displayNoOfPages=noOfPages;
         request.setAttribute("displayNoOfPages", displayNoOfPages);
         request.setAttribute("currentPage", page);
         RequestDispatcher view = request.getRequestDispatcher("MoviesList.jsp");

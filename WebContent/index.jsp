@@ -17,11 +17,14 @@
 
 	<hr>
 	<div>
-		<label for="genre">Genre: </label> <select id="genre" name="genre">
+		<label for="genre">Genre: </label> 
+		<select id="genre" name="genre">
 			<option value="">All</option>
 			<option value="action">Action</option>
 			<option value="comedy">Comedy</option>
-		</select> <label for="sort">Sort by: </label> <select id="sort" name="sort">
+		</select> 
+		<label for="sort">Sort by: </label> 
+		<select id="sort" name="sort">
 			<option value="">Select</option>
 			<option value="length">Length</option>
 			<option value="releaseDate">Release date</option>
@@ -30,11 +33,11 @@
 
 
 	<div>
-		<label for="language">Language: </label> <select id="language"
-			name="language">
+		<label for="language">Language: </label> 
+		<select id="language" name="language">
 			<option value="">All</option>
-			<option value="english">English</option>
-			<option value="hindi">Hindi</option>
+			<option value="English">English</option>
+			<option value="Hindi">Hindi</option>
 		</select> 
 		<a href="javascript:loadDoc()" class="button" id="hide">Search</a>
 	</div>
@@ -49,13 +52,15 @@
 			xhttp.onreadystatechange = function() {
 				if (this.readyState == 4 && this.status == 200) {
 					document.getElementById("demo").innerHTML = this.responseText;
-					//document.getElementsByClassName("pagination").style.visibility = "visible"; 
 				}
 			};
-			xhttp.open("GET", "mv", true);
+			var num=2;
+			var genre='Action';
+			var language='';
+			var sort='length';
+			xhttp.open("GET", "mv?page="+num+"&genre="+genre+"&language="+language+"&sort="+sort, true);
 			xhttp.send();
 		}
 	</script>
-
 </body>
 </html>

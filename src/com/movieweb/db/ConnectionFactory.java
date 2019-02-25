@@ -10,10 +10,10 @@ public class ConnectionFactory {
 
     private static final Logger LOGGER = Logger.getLogger(ConnectionFactory.class.getName());
 	private static ConnectionFactory instance = new ConnectionFactory();
-	String url = "jdbc:mysql://10.95.147.130:3306/test-movies";
+	String url = "jdbc:mysql://localhost:3306/movieweb";
 	String user = "root";
 	String password = "root";
-	String driverClass = "com.mysql.jdbc.Driver";
+	String driverClass = "com.mysql.cj.jdbc.Driver";
 
 	private ConnectionFactory() {
 		try {
