@@ -55,7 +55,7 @@
 				}
 			};
 			var num=1;
-			var genre='Action';
+			var genre = document.getElementById("genre").options[document.getElementById("genre").selectedIndex].text;
 			var language='';
 			var sort='length';
 			xhttp.open("GET", "mv?page="+num+"&genre="+genre+"&language="+language+"&sort="+sort, true);
