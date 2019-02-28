@@ -30,7 +30,7 @@ label {
 
 .pcenter {
 	top: 50%;
-    left: 38%;
+    left: 45%;
     position: relative;
 }​​​
 
@@ -84,7 +84,7 @@ select{
 	transform: translate(-50%, -50%);
 	color:#bdf1f9;
 	font-size: 360%;
-	 text-shadow: 4px 3px #FF0000;
+	text-shadow: 4px 3px #FF0000;
 }
 
 .button {
@@ -111,6 +111,5 @@ select{
 
 h4 {
     position: relative;
-    left: 5%;
     color: #0000a0;
 }

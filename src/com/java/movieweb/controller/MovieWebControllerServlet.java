@@ -23,7 +23,7 @@ public class MovieWebControllerServlet extends HttpServlet{
             HttpServletResponse response) 
             throws ServletException, IOException {
         int page = 1;
-        int recordsPerPage = 6;
+        int recordsPerPage = 10;
         int displayNoOfPages=4;
 		
         if(request.getParameter("page") != null)

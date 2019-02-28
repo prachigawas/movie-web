@@ -14,23 +14,18 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.java.movieweb.models.Movies;
-import com.movieweb.db.ConnectionFactory;
+import static com.movieweb.db.ConnectionFactory.getConnection;
 import static com.mysql.cj.util.StringUtils.isNullOrEmpty;
 
 public class MoviesDAO {
-	private static final Logger LOGGER = Logger.getLogger(ConnectionFactory.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(MoviesDAO.class.getName());
 	Connection jdbcConnection;
 	private int noOfRecords;
 
 	Statement stmt;
 
-	private static Connection getConnection() throws SQLException, ClassNotFoundException {
-		return ConnectionFactory.getInstance().getConnection();
-	}
-
 	public List<Movies> viewAllMovies(int offset, int noOfRecords, String genre, String language, String sort) {
 		String query = getQuery(offset, noOfRecords, genre, language);
-		System.out.println(query);
 
 		List<Movies> list = new ArrayList<Movies>();
 		Movies movie = null;
@@ -71,9 +66,7 @@ public class MoviesDAO {
 			rs = stmt.executeQuery("SELECT FOUND_ROWS()");
 			if (rs.next())
 				this.noOfRecords = rs.getInt(1);
-		} catch (SQLException e) {
-			LOGGER.log(Level.SEVERE, e.getMessage());
-		} catch (ClassNotFoundException e) {
+		} catch (Exception e) {
 			LOGGER.log(Level.SEVERE, e.getMessage());
 		} finally {
 			try {
