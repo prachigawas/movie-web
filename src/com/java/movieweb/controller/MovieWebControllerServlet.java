@@ -2,14 +2,12 @@ package com.java.movieweb.controller;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.java.movieweb.dao.MoviesDAO;
 import com.java.movieweb.models.Movies;
