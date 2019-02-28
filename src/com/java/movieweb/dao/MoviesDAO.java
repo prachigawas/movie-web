@@ -5,33 +5,33 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import static java.util.Objects.nonNull;
-import static java.util.Objects.isNull;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.java.movieweb.models.Movies;
 import com.movieweb.db.ConnectionFactory;
+import static com.mysql.cj.util.StringUtils.isNullOrEmpty;
 
 public class MoviesDAO {
 	private static final Logger LOGGER = Logger.getLogger(ConnectionFactory.class.getName());
 	Connection jdbcConnection;
+	private int noOfRecords;
 
 	Statement stmt;
-	private int noOfRecords;
 
 	private static Connection getConnection() throws SQLException, ClassNotFoundException {
 		return ConnectionFactory.getInstance().getConnection();
 	}
 
-	public List<Movies> viewAllMovies(int offset,int noOfRecords,String genre, String language, String sort) {
-		String query =getQuery(genre,language) ;
-		
+	public List<Movies> viewAllMovies(int offset, int noOfRecords, String genre, String language, String sort) {
+		String query = getQuery(offset, noOfRecords, genre, language);
+		System.out.println(query);
+
 		List<Movies> list = new ArrayList<Movies>();
 		Movies movie = null;
 		try {
@@ -50,10 +50,11 @@ public class MoviesDAO {
 			}
 
 			if (nonNull(sort)) {
-				switch(sort.trim().toLowerCase()) {
+				switch (sort.trim().toLowerCase()) {
 				case "length":
 					list.sort(Comparator.comparing(Movies::getMovieLength, (s1, s2) -> {
-						return Integer.valueOf(s1.replaceAll("[^0-9]", "")).compareTo(Integer.valueOf(s2.replaceAll("[^0-9]", "")));
+						return Integer.valueOf(s1.replaceAll("[^0-9]", ""))
+								.compareTo(Integer.valueOf(s2.replaceAll("[^0-9]", "")));
 					}));
 					break;
 				case "releasedate":
@@ -68,12 +69,12 @@ public class MoviesDAO {
 			}
 			rs.close();
 			rs = stmt.executeQuery("SELECT FOUND_ROWS()");
-            if(rs.next())
-                this.noOfRecords = rs.getInt(1);
+			if (rs.next())
+				this.noOfRecords = rs.getInt(1);
 		} catch (SQLException e) {
-			LOGGER.log(Level.SEVERE,e.getMessage());
+			LOGGER.log(Level.SEVERE, e.getMessage());
 		} catch (ClassNotFoundException e) {
-			LOGGER.log(Level.SEVERE,e.getMessage());
+			LOGGER.log(Level.SEVERE, e.getMessage());
 		} finally {
 			try {
 				if (stmt != null)
@@ -81,20 +82,20 @@ public class MoviesDAO {
 				if (jdbcConnection != null)
 					jdbcConnection.close();
 			} catch (SQLException e) {
-				LOGGER.log(Level.SEVERE,e.getMessage());
+				LOGGER.log(Level.SEVERE, e.getMessage());
 			}
 		}
 		return list;
 	}
 
-	private String getQuery(String genre, String language) {
+	private String getQuery(int offset, int noOfRecords, String genre, String language) {
 		String query;
-		if(isNull(genre) && isNull(language)) {
-			query= "select SQL_CALC_FOUND_ROWS * from movies";
-		}
-		else {
-			query= "select SQL_CALC_FOUND_ROWS * from movies m where m.id in (select distinct movie_id from relationship r where r.category_id in (select "+
-					"id from category c where c.value in ('"+genre +"','"+ language+"')))";
+		if (isNullOrEmpty(genre) && isNullOrEmpty(language)) {
+			query = "select SQL_CALC_FOUND_ROWS * from movies limit " + offset + ", " + noOfRecords;
+		} else {
+			query = "select SQL_CALC_FOUND_ROWS * from movies m where m.id in (select distinct movie_id from relationship r where r.category_id in (select "
+					+ "id from category c where c.value in ('" + genre + "','" + language + "'))) limit " + offset
+					+ ", " + noOfRecords;
 		}
 		return query;
 	}
@@ -102,4 +103,5 @@ public class MoviesDAO {
 	public int getNoOfRecords() {
 		return noOfRecords;
 	}
+
 }

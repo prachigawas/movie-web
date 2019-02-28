@@ -6,6 +6,7 @@
 <meta charset="UTF-8">
 <title>MovieWeb</title>
 <link href="<c:url value="styles.css" />" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 
 <body>
@@ -20,8 +21,8 @@
 		<label for="genre">Genre: </label> 
 		<select id="genre" name="genre">
 			<option value="">All</option>
-			<option value="action">Action</option>
-			<option value="comedy">Comedy</option>
+			<option value="Action">Action</option>
+			<option value="Comedy">Comedy</option>
 		</select> 
 		<label for="sort">Sort by: </label> 
 		<select id="sort" name="sort">
@@ -31,7 +32,6 @@
 		</select>
 	</div>
 
-
 	<div>
 		<label for="language">Language: </label> 
 		<select id="language" name="language">
@@ -39,28 +39,30 @@
 			<option value="English">English</option>
 			<option value="Hindi">Hindi</option>
 		</select> 
-		<a href="javascript:loadDoc()" class="button" id="hide">Search</a>
+		<a class="button" id="hide">Search</a>
 	</div>
 	<hr>
 	<br>
 
-	<p id="showTable"></p>
-
-	<script>
-		function loadDoc() {
-			var xhttp = new XMLHttpRequest();
-			xhttp.onreadystatechange = function() {
-				if (this.readyState == 4 && this.status == 200) {
-					document.getElementById("showTable").innerHTML = this.responseText;
-				}
-			};
-			var num=1;
-			var genre = document.getElementById("genre").options[document.getElementById("genre").selectedIndex].text;
-			var language='';
-			var sort='length';
-			xhttp.open("GET", "mv?page="+num+"&genre="+genre+"&language="+language+"&sort="+sort, true);
-			xhttp.send();
-		}
-	</script>
+		<p id="addTable"></p>
+		
+		<script type="text/javascript">
+		  $(".button").click(function(){
+			    $.get("mv?genre="+$("#genre").children("option:selected").val()+"&language="+$("#language").children("option:selected").val()+"&sort="+$("#sort").children("option:selected").val(), function(data, status){
+			    		document.getElementById("addTable").innerHTML =data;
+			    });
+			  });
+		  </script>
+		  
+		  <script>
+		  function renderPage(pageNum){
+			    $.get("mv?page="+pageNum+"&genre="+$("#genre").children("option:selected").val()+
+			    		"&language="+$("#language").children("option:selected").val()+
+			    		"&sort="+$("#sort").children("option:selected").val(), function(data, status){
+			    		document.getElementById("addTable").innerHTML =data;
+			    });
+			  };
+		  </script>
+	
 </body>
 </html>

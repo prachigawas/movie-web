@@ -25,34 +25,29 @@ public class MovieWebControllerServlet extends HttpServlet{
         int page = 1;
         int recordsPerPage = 6;
         int displayNoOfPages=4;
-        HttpSession session = request.getSession();
 		
         if(request.getParameter("page") != null)
             page = Integer.parseInt(request.getParameter("page"));
         MoviesDAO dao = new MoviesDAO();
-        
-        String genreFilter= (String) Optional.ofNullable(request.getParameter("genre")).orElse(null);
-        String languageFilter= Optional.ofNullable(request.getParameter("language")).orElse(null);
-        String sortBy= Optional.ofNullable(request.getParameter("sort")).orElse(null);
+        String genreFilter= request.getParameter("genre");
+        String languageFilter= request.getParameter("language");
+        String sortBy= request.getParameter("sort");
         
         
         List<Movies> list = dao.viewAllMovies((page-1)*recordsPerPage,recordsPerPage,genreFilter,languageFilter,sortBy);
         int noOfRecords = dao.getNoOfRecords();
         int noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
-        request.setAttribute("filteredMovies", list);
-        request.setAttribute("noOfPages", noOfPages);
+      
         if(noOfPages < displayNoOfPages)
         	displayNoOfPages=noOfPages;
+        
+        request.setAttribute("filteredMovies", list);
+        request.setAttribute("noOfPages", noOfPages);
         request.setAttribute("displayNoOfPages", displayNoOfPages);
         request.setAttribute("currentPage", page);
         RequestDispatcher view = request.getRequestDispatcher("MoviesList.jsp");
         view.forward(request, response);
     }
-	
-	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
-			throws ServletException, IOException {
-		
-	}
+
 
 }

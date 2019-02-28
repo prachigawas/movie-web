@@ -9,12 +9,12 @@ table, th, td {
 .box {
 	top:50%;
     left:30%;
-    background-color:#c0c0c0;
+    background-color:#d0f5f7;
     position:relative;
 }
 
 th, td {
-	padding: 8px;
+	padding: 10px;
 }
 
 th {
@@ -30,7 +30,7 @@ label {
 
 .pcenter {
 	top: 50%;
-    left: 34%;
+    left: 38%;
     position: relative;
 }​​​
 
@@ -39,7 +39,7 @@ label {
     position: relative;
 }
 
-.pagination a {
+.pagination button {
 	color: black;
 	float: left;
 	padding: 8px 16px;
@@ -50,13 +50,13 @@ label {
 	text-align: center;
 }
 
-.pagination a.active {
+.pagination button.active {
 	background-color: dodgerblue;
 	color: white;
 }
 
-.pagination a:hover:not(.active){
-	background-color: #ddd;
+.pagination button:hover:not(.active){
+	background-color: #c0c0c0;
 }
 
 .header img {
@@ -76,14 +76,17 @@ select{
   border-radius: 4px;
   box-sizing: border-box;
 }
+
 .header h1 {
 	position: absolute;
-	top: 7%;
+	top: 6%;
 	left: 50%;
 	transform: translate(-50%, -50%);
-	color:silver;
-	font-size: 360%
+	color:#bdf1f9;
+	font-size: 360%;
+	 text-shadow: 4px 3px #FF0000;
 }
+
 .button {
   background-color: #8080c0;
   border: none;
@@ -102,6 +105,12 @@ select{
 }
 
 .button:hover {
-  background-color: #0000a0; /* Green */
+  background-color: #0000a0; 
   color: white;
+}
+
+h4 {
+    position: relative;
+    left: 5%;
+    color: #0000a0;
 }
