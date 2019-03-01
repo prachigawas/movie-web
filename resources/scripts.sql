@@ -19,7 +19,9 @@ value varchar(20)
 CREATE TABLE Relationship(
 id int NOT NULL PRIMARY KEY AUTO_INCREMENT,
 category_id int,
-movie_id int
+movie_id int,
+FOREIGN KEY(category_id) REFERENCES CATEGORY(id),
+FOREIGN KEY(movie_id) REFERENCES MOVIES(id)
 );
 
 INSERT INTO Movies(title,description,length,release_date) values('Jurassic World','A movie about dinosaurs','90 minutes','Jun 14 2015');
